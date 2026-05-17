@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe — Taller Lotería v1.1</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root {
+    --bg:#f7f8fa; --card:#fff; --border:#e2e6ea;
+    --primary:#1a3a6e; --accent:#2563eb; --green:#16a34a;
+    --red:#dc2626; --yellow:#b45309; --code-bg:#1e2433;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:#1f2937;line-height:1.7;font-size:15px}
+  header{background:var(--primary);color:#fff;padding:2.5rem 3rem;border-bottom:4px solid var(--accent)}
+  header h1{font-size:1.9rem;font-weight:700;letter-spacing:-.5px}
+  header p{opacity:.75;font-size:.9rem;margin-top:.4rem}
+  .badge{display:inline-block;background:var(--accent);color:#fff;font-size:.7rem;padding:.2rem .7rem;border-radius:50px;letter-spacing:1px;font-weight:600;margin-left:.8rem;vertical-align:middle}
+  main{max-width:960px;margin:2.5rem auto;padding:0 2rem 3rem}
+  section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;margin-bottom:1.8rem;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  h2{font-size:1.15rem;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;padding-bottom:.6rem;border-bottom:2px solid var(--border)}
+  h2 .num{background:var(--primary);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+  h3{font-size:.95rem;font-weight:600;color:var(--accent);margin:1.2rem 0 .4rem}
+  p{margin-bottom:.75rem;color:#374151}
+  ul,ol{padding-left:1.4rem;margin-bottom:.8rem}
+  li{margin-bottom:.3rem;color:#374151}
+  code,pre{font-family:'IBM Plex Mono',monospace}
+  pre{background:var(--code-bg);color:#e2e8f0;padding:1.1rem 1.4rem;border-radius:8px;font-size:.82rem;overflow-x:auto;margin:.6rem 0 1rem;line-height:1.6}
+  .tag{display:inline-block;font-size:.72rem;font-weight:600;padding:.15rem .55rem;border-radius:4px;letter-spacing:.5px}
+  .tag.ok{background:#dcfce7;color:var(--green)}
+  .tag.err{background:#fee2e2;color:var(--red)}
+  .tag.warn{background:#fef3c7;color:var(--yellow)}
+  table{width:100%;border-collapse:collapse;margin:.6rem 0 1rem;font-size:.88rem}
+  th{background:var(--primary);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:600}
+  td{padding:.55rem .9rem;border-bottom:1px solid var(--border)}
+  tr:hover td{background:#f1f5f9}
+  .diff{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.5rem 0 1rem}
+  .diff-box{border-radius:8px;padding:.9rem 1.1rem;font-size:.85rem}
+  .diff-box.old{background:#fee2e2;border-left:4px solid var(--red)}
+  .diff-box.new{background:#dcfce7;border-left:4px solid var(--green)}
+  .diff-box span{display:block;font-size:.72rem;font-weight:600;letter-spacing:1px;margin-bottom:.4rem;opacity:.7;text-transform:uppercase}
+  .result-row{display:flex;gap:.5rem;align-items:center;padding:.4rem 0;border-bottom:1px solid #f0f0f0}
+  .result-row:last-child{border:none}
+  .check{color:var(--green);font-size:1.1rem}
+  .cross{color:var(--red);font-size:1.1rem}
+  footer{text-align:center;padding:2rem;color:#9ca3af;font-size:.82rem;border-top:1px solid var(--border);margin-top:1rem}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎰 Informe de Taller — Juego de Lotería <span class="badge">v1.1</span></h1>
+  <p>Tecnologías: Git · Docker · PHP · DevOps &nbsp;|&nbsp; Fecha: Mayo 2026</p>
+</header>
+
+<main>
+
+<!-- SECCIÓN 1 -->
+<section>
+  <h2><span class="num">1</span> Mejora de la Interfaz</h2>
+  <p>La interfaz original era funcional pero visualmente básica: fondo gris, botones verdes estándar y sin identidad visual. Se rediseñó completamente adoptando un tema de <strong>casino nocturno</strong> que refuerza la temática del juego.</p>
+
+  <h3>Cambios aplicados en <code>style.css</code> y <code>view.php</code></h3>
+  <ul>
+    <li>Importación de tipografías web: <strong>Boogaloo</strong> (display) + <strong>Nunito</strong> (cuerpo) vía Google Fonts.</li>
+    <li>Fondo radial degradado en tonos violeta/morado profundo con partículas doradas decorativas (<code>radial-gradient</code> + <code>::before</code>).</li>
+    <li>Panel de puntaje destacado con brillo dorado (<code>text-shadow</code>, borde sutil).</li>
+    <li>Imágenes dentro de "slots" individuales con efecto <code>hover: scale(1.05)</code>.</li>
+    <li>Resultado coloreado según estado: verde (Ganaste), rojo (Perdiste), dorado pulsante (Game Over).</li>
+    <li>Botones diferenciados: dorado sólido para Jugar, outline dorado para Guardar, morado para Reiniciar.</li>
+    <li>Estructura semántica HTML5 con <code>&lt;meta viewport&gt;</code> y <code>lang="es"</code>.</li>
+  </ul>
+
+  <h3>Fragmento representativo del nuevo CSS</h3>
+  <pre>:root {
+    --gold: #FFD700;
+    --deep: #1a0533;
+    --card-bg: #2a0d4e;
+}
+
+body {
+    background: radial-gradient(ellipse at top, #3b1060, #1a0533, #0d0020);
+}
+
+.score-value {
+    font-family: 'Boogaloo', cursive;
+    color: var(--gold);
+    text-shadow: 0 0 12px rgba(255,215,0,0.6);
+}</pre>
+</section>
+
+<!-- SECCIÓN 2 -->
+<section>
+  <h2><span class="num">2</span> Cambio de Puntaje Inicial: 1000 → 2000</h2>
+  <p>Se localizaron y modificaron <strong>todos los puntos</strong> del código donde se inicializa o reinicia el puntaje:</p>
+
+  <div class="diff">
+    <div class="diff-box old"><span>❌ Antes — controller.php</span>
+$this->puntaje = isset($_SESSION['puntaje'])
+    ? $_SESSION['puntaje'] : <strong>1000</strong>;
+
+// En guardar():
+$_SESSION['puntaje'] = <strong>1000</strong>;</div>
+    <div class="diff-box new"><span>✅ Después — controller.php</span>
+$this->puntaje = isset($_SESSION['puntaje'])
+    ? $_SESSION['puntaje'] : <strong>2000</strong>;
+
+// En guardar():
+$_SESSION['puntaje'] = <strong>2000</strong>;</div>
+  </div>
+
+  <div class="diff">
+    <div class="diff-box old"><span>❌ Antes — view.php</span>
+$puntaje = isset($_SESSION['puntaje'])
+    ? $_SESSION['puntaje'] : <strong>1000</strong>;</div>
+    <div class="diff-box new"><span>✅ Después — view.php</span>
+$puntaje = isset($_SESSION['puntaje'])
+    ? $_SESSION['puntaje'] : <strong>2000</strong>;</div>
+  </div>
+
+  <p>Se añadió también el método <code>getPuntaje()</code> al controller para facilitar las pruebas unitarias sin exponer atributos privados.</p>
+</section>
+
+<!-- SECCIÓN 3 -->
+<section>
+  <h2><span class="num">3</span> Subida a GitHub (Push)</h2>
+  <p>Secuencia de comandos Git ejecutada para versionar y publicar el proyecto:</p>
+  <pre>git init
+git add .
+git commit -m "feat: versión 1.1 — puntaje inicial 2000, nueva interfaz, lint y tests"
+git branch -M main
+git remote add origin https://github.com/[usuario]/loteria-juego.git
+git push -u origin main</pre>
+
+  <h3>Estructura del repositorio</h3>
+  <pre>loteria-v1.1/
+├── controller.php       ← lógica del juego (MVC)
+├── model.php            ← acceso a BD
+├── view.php             ← plantilla HTML mejorada
+├── index.php            ← punto de entrada
+├── style.css            ← estilos rediseñados
+├── juego.sql            ← esquema de base de datos
+├── lint.sh              ← script PHP Lint (CI)
+├── test_jugar.php       ← pruebas unitarias
+├── Dockerfile           ← imagen Docker PHP+Apache
+├── docker-compose.yml   ← orquestación web + BD
+├── .github/workflows/
+│   └── ci.yml           ← pipeline GitHub Actions
+├── README.md
+└── imagenes/
+    ├── 1.jpg  2.jpg  3.jpg</pre>
+
+  <p><em>Nota: adjuntar en el informe físico los pantallazos del repositorio en GitHub y del historial de commits.</em></p>
+</section>
+
+<!-- SECCIÓN 4 -->
+<section>
+  <h2><span class="num">4</span> PHP Lint — Integración Continua (CI)</h2>
+
+  <h3>¿Qué es PHP Lint?</h3>
+  <p><strong>PHP Lint</strong> es la validación de sintaxis que realiza el intérprete PHP sobre un archivo fuente <em>sin ejecutarlo</em>. Se invoca con <code>php -l archivo.php</code>. Detecta errores de parseo (paréntesis sin cerrar, etiquetas mal formadas, palabras clave mal escritas) antes de que el código llegue a producción.</p>
+
+  <p>En un flujo <strong>DevOps / CI-CD</strong>, ejecutar PHP Lint en cada push garantiza que ningún archivo sintácticamente roto se despliegue al servidor. Es la primera línea de defensa, rápida y sin dependencias externas.</p>
+
+  <h3>Script <code>lint.sh</code></h3>
+  <pre>#!/bin/bash
+for f in *.php; do
+    result=$(php -l "$f" 2>&1)
+    if echo "$result" | grep -q "No syntax errors"; then
+        echo "  ✅  $f — OK"
+    else
+        echo "  ❌  $f — ERROR: $result"
+    fi
+done</pre>
+
+  <h3>Resultado de ejecución</h3>
+  <div class="result-row"><span class="check">✅</span>&nbsp;<code>controller.php</code> — No hay errores de sintaxis</div>
+  <div class="result-row"><span class="check">✅</span>&nbsp;<code>model.php</code> — No hay errores de sintaxis</div>
+  <div class="result-row"><span class="check">✅</span>&nbsp;<code>view.php</code> — No hay errores de sintaxis</div>
+  <div class="result-row"><span class="check">✅</span>&nbsp;<code>index.php</code> — No hay errores de sintaxis</div>
+  <div class="result-row"><span class="check">✅</span>&nbsp;<code>test_jugar.php</code> — No hay errores de sintaxis</div>
+  <br>
+  <p><span class="tag ok">5 OK</span>&nbsp;<span class="tag ok">0 ERRORES</span> — Todos los archivos pasan el lint.</p>
+
+  <h3>Pipeline GitHub Actions (<code>.github/workflows/ci.yml</code>)</h3>
+  <pre>jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.2' }
+      - name: PHP Lint
+        run: for f in *.php; do php -l "$f"; done
+      - name: Tests
+        run: php test_jugar.php</pre>
+</section>
+
+<!-- SECCIÓN 5 -->
+<section>
+  <h2><span class="num">5</span> Pruebas sobre el Método <code>jugar()</code></h2>
+  <p>Se creó el archivo <code>test_jugar.php</code> con un <em>mini-framework</em> de pruebas sin dependencias externas. Para aislar la lógica de BD y sesiones se creó la clase <code>ControllerTestable</code>, que permite inyectar los tres números en lugar de generarlos aleatoriamente.</p>
+
+  <table>
+    <tr><th>#</th><th>Caso de Prueba</th><th>Entrada</th><th>Esperado</th><th>Resultado</th></tr>
+    <tr><td>1</td><td>Puntaje inicial por defecto</td><td>—</td><td>2000</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>2</td><td>Tres iguales → puntaje +200</td><td>(1,1,1) desde 2000</td><td>2200 / "Ganaste"</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>3</td><td>No iguales → puntaje -10</td><td>(1,2,3) desde 2000</td><td>1990 / "Perdiste"</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>4</td><td>Solo dos iguales → Perdiste</td><td>(2,2,3) desde 2000</td><td>"Perdiste"</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>5</td><td>Puntaje no puede ser negativo</td><td>(1,2,3) desde 5</td><td>0 / "Game Over"</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>6</td><td>Puntaje exacto en 10 → queda en 0</td><td>(1,2,3) desde 10</td><td>0</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>7</td><td>Números aleatorios en rango [1,3]</td><td>—</td><td>1 ≤ n ≤ 3</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>8</td><td>100 jugadas → puntaje ≥ 0</td><td>—</td><td>≥ 0</td><td><span class="tag ok">PASS</span></td></tr>
+    <tr><td>9</td><td>Game Over se mantiene en 0</td><td>(1,2,3) desde 0</td><td>0 / "Game Over"</td><td><span class="tag ok">PASS</span></td></tr>
+  </table>
+
+  <p><strong>Total: 9 pruebas — ✅ 9 pasadas — ❌ 0 fallidas</strong></p>
+</section>
+
+<!-- SECCIÓN 6 -->
+<section>
+  <h2><span class="num">6</span> Empaquetado — Versión 1.1</h2>
+  <p>El proyecto se empaquetó incluyendo código fuente, imágenes y archivos de configuración:</p>
+  <pre>zip -r loteria-v1.1.zip loteria-v1.1/</pre>
+  <p>Contenido del paquete <code>loteria-v1.1.zip</code>:</p>
+  <ul>
+    <li>Todos los archivos PHP (<code>controller.php</code>, <code>model.php</code>, <code>view.php</code>, <code>index.php</code>)</li>
+    <li>Hoja de estilos rediseñada (<code>style.css</code>)</li>
+    <li>Imágenes del juego (<code>imagenes/1.jpg</code>, <code>2.jpg</code>, <code>3.jpg</code>)</li>
+    <li>Base de datos (<code>juego.sql</code>)</li>
+    <li>Script de lint (<code>lint.sh</code>) y pruebas (<code>test_jugar.php</code>)</li>
+    <li><code>Dockerfile</code> + <code>docker-compose.yml</code></li>
+    <li>Pipeline CI (<code>.github/workflows/ci.yml</code>)</li>
+  </ul>
+</section>
+
+<!-- SECCIÓN 7 -->
+<section>
+  <h2><span class="num">7</span> Despliegue en Servidor Apache</h2>
+  <h3>Opción A — Docker (recomendada)</h3>
+  <pre># Desde la carpeta del proyecto:
+docker-compose up -d
+
+# Verificar que los contenedores estén corriendo:
+docker ps
+
+# Acceder al juego:
+# http://localhost:8080</pre>
+
+  <p>El <code>docker-compose.yml</code> levanta tres servicios:</p>
+  <table>
+    <tr><th>Servicio</th><th>Puerto</th><th>Descripción</th></tr>
+    <tr><td><code>web</code></td><td>8080</td><td>PHP 8.2 + Apache con el juego</td></tr>
+    <tr><td><code>db</code></td><td>3306</td><td>MariaDB 10.11 con <code>juego.sql</code> auto-importado</td></tr>
+    <tr><td><code>phpmyadmin</code></td><td>8081</td><td>Interfaz web para administrar la BD</td></tr>
+  </table>
+
+  <h3>Opción B — XAMPP / servidor local</h3>
+  <pre># Copiar archivos al DocumentRoot de Apache:
+cp -r loteria-v1.1/ /var/www/html/
+
+# Importar base de datos:
+mysql -u root -p &lt; juego.sql
+
+# Reiniciar Apache:
+sudo systemctl restart apache2
+
+# Acceder:
+# http://localhost/loteria-v1.1/</pre>
+</section>
+
+<!-- SECCIÓN 8 -->
+<section>
+  <h2><span class="num">8</span> Conclusiones</h2>
+  <ul>
+    <li><strong>Git:</strong> el control de versiones permitió registrar cada cambio de forma organizada. El historial de commits muestra claramente qué se modificó y cuándo.</li>
+    <li><strong>PHP Lint (CI):</strong> detectar errores de sintaxis antes del despliegue es una práctica DevOps esencial. Se automatizó con GitHub Actions para que se ejecute en cada push.</li>
+    <li><strong>Testing:</strong> las pruebas del método <code>jugar()</code> verificaron 9 escenarios críticos (ganar, perder, límite de puntaje, rango de números). Todas pasaron correctamente.</li>
+    <li><strong>Docker:</strong> el empaquetado con Docker garantiza que el entorno de desarrollo sea idéntico al de producción, eliminando el problema clásico de "en mi máquina funciona".</li>
+    <li><strong>Mejora de interfaz:</strong> el rediseño visual eleva la experiencia de usuario y demuestra que el MVC separa correctamente la presentación de la lógica.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>Taller DevOps — Git · Docker · PHP · Apache &nbsp;|&nbsp; Lotería v1.1 · Mayo 2026</footer>
+</body>
+</html>

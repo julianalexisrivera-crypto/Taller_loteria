@@ -1,0 +1,28 @@
+name: CI — PHP Lint & Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Instalar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: PHP Lint (todos los archivos)
+        run: |
+          for f in *.php; do
+            php -l "$f"
+          done
+
+      - name: Ejecutar pruebas unitarias
+        run: php test_jugar.php
