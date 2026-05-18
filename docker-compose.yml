@@ -25,7 +25,7 @@ services:
       - ./juego.sql:/docker-entrypoint-initdb.d/juego.sql
       - db_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3307"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
